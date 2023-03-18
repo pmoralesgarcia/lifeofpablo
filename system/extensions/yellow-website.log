@@ -14191,3 +14191,15 @@
 2023-02-19 02:52:15 info Install extension 'Backtotop 0.8.20'
 2023-02-19 03:42:41 info Install extension 'Draft 0.8.17'
 2023-02-26 20:32:08 info Install extension 'Clarity 0.8.3'
+2023-03-18 05:04:35 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:04:36 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:09:34 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:09:39 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:11:07 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:11:08 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:11:10 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:14:52 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 05:14:56 error Can't parse file 'system/layouts/blog.html'!
+2023-03-18 19:49:26 info Update extension 'Blog 0.8.25'
+2023-03-18 19:49:26 info Update extension 'Update 0.8.92'
+2023-03-18 19:49:26 info Apply patches for Datenstrom Yellow 0.8.21

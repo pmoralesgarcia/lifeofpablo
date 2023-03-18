@@ -7,6 +7,8 @@ function error_page($header, $body, $http = '400 Bad Request')
 <!doctype html>
 <html>
     <head>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" media="all" href="./media/extensions/bundle-af86290bd2.min.css">
         <style>
             .error{
                 width:100%;
@@ -343,6 +345,9 @@ $csrf_code = create_signed_code(APP_KEY, $client_id . $redirect_uri . $state, 2 
 <html>
     <head>
         <title>Login</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" media="all" href="css/pablo.css">
+<script src="https://kit.fontawesome.com/2ad0b8bc3e.js" crossorigin="anonymous"></script>
         <style>
 h1{text-align:center;margin-top:3%;}
 body {text-align:center;}

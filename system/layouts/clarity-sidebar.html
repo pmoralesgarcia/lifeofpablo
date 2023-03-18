@@ -65,7 +65,7 @@
                 uksort($tags, "strnatcasecmp");
                 $output .= "<ul>\n";
                 foreach ($tags as $key=>$value) {
-                  $output .= "<a href=\"".$this->yellow->page->getBase()."/blog/".$this->yellow->toolbox->normaliseArguments("tag:$key")." \" class=\"post_tag button button_translucent\">".$key."<span class=\"button_tally\">".$value."</span></a>";
+                  $output .= "<a href=\"".$this->yellow->page->getBase()."/blog/".$this->yellow->lookup->normaliseArguments("tag:$key")." \" class=\"post_tag button button_translucent\">".$key."<span class=\"button_tally\">".$value."</span></a>";
                 }
                 $output .= "\n";
               }

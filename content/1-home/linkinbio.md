@@ -1,6 +1,6 @@
 ---
 Title: Link in Bio
-Layout: linkinbio
+layout: linkinbio
 TitleContent: Pablo MORALES
 TitleSlug: linkinbio
 Status: unlisted

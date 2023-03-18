@@ -40,7 +40,7 @@
                             <?php if ($this->yellow->page->isExisting("tag")): ?>
                             <div class="post_meta" style="display: flex;">
                                 <span style="margin-bottom: 0;"><svg class="icon"><use xlink:href="#tag"></use></svg></span>
-                                <?php $tagCounter = 0; foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("tag")) as $tag) { if (++$tagCounter>0) echo "<a href=\"".$this->yellow->page->getLocation(true).$this->yellow->toolbox->normaliseArguments("tag:$tag")."\" class=\"post_tag button button_translucent\">".htmlspecialchars($tag)."</a>"; } ?>
+                                <?php $tagCounter = 0; foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("tag")) as $tag) { if (++$tagCounter>0) echo "<a href=\"".$this->yellow->page->getLocation(true).$this->yellow->lookup->normaliseArguments("tag:$tag")."\" class=\"post_tag button button_translucent\">".htmlspecialchars($tag)."</a>"; } ?>
                             </div>
                             <?php endif ?>
                             <hr>

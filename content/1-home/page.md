@@ -59,7 +59,7 @@ Layout: about-page
   </div>
 
 
- 
+ <div class="p-note" markdown="1">
 
 Hey, I'm Pablo and I'm based in Sacramento. I do IT and teach web design. Did you know I grew up in the town where [Kool-Aid](https://hastingsmuseum.org/exhibit/kool-aid/) was invented!? Oh, Yeahhhh! 
 
@@ -76,3 +76,6 @@ I like DCD's Jackpot Juicer.
 Living in CA, I have grown so much and made amazing friends
 
 
+</div>
+
+https://webmention.io/api/mentions.html?token=-sOFwQxAa0hoYFdLaYZanw
