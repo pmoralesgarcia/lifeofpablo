@@ -236,6 +236,13 @@ a:hover {
     border-radius: 4px;
 }
 
+.box {
+
+    height: 2wh;
+    text-align: center;
+    font-weight: bold;
+  }
+
 /* Header */
 
 .header {
@@ -477,6 +484,10 @@ footer ul{
     .content h2 {
         font-size: 1.5em;
     }
+      .navigation {
+    float: left;
+    align-content: center
+  }
 }
 @media print {
     .page {
