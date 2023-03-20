@@ -14203,3 +14203,8 @@
 2023-03-18 19:49:26 info Update extension 'Blog 0.8.25'
 2023-03-18 19:49:26 info Update extension 'Update 0.8.92'
 2023-03-18 19:49:26 info Apply patches for Datenstrom Yellow 0.8.21
+2023-03-19 05:10:38 info Install extension 'Readingtime 0.8.21'
+2023-03-19 05:59:59 error Can't parse file 'system/layouts/blog.html'!
+2023-03-19 06:00:57 error Can't parse file 'system/layouts/blog.html'!
+2023-03-20 01:04:12 info Update extension 'Core 0.8.105'
+2023-03-20 01:04:13 info Update Datenstrom Yellow 0.8.22, PHP 8.2.3, nginx 1.18.0, Linux
