@@ -46,6 +46,8 @@ Layout: about-page
 }  
 </style>
 
+
+
 <div class="sucess box">
     Follow me on:
     <br>
@@ -77,5 +79,9 @@ Living in CA, I have grown so much and made amazing friends
 
 
 </div>
-
-https://webmention.io/api/mentions.html?token=-sOFwQxAa0hoYFdLaYZanw
+<div>
+Your Domain <form action="/login.php" method="post">
+  <input type="url" name="url">
+  <input type="submit" value="Log In">
+</form>
+</div>

@@ -14208,3 +14208,6 @@
 2023-03-19 06:00:57 error Can't parse file 'system/layouts/blog.html'!
 2023-03-20 01:04:12 info Update extension 'Core 0.8.105'
 2023-03-20 01:04:13 info Update Datenstrom Yellow 0.8.22, PHP 8.2.3, nginx 1.18.0, Linux
+2023-03-23 05:02:52 error Can't parse file 'system/extensions/image.php'!
+2023-03-23 05:03:30 error Can't parse file 'system/extensions/image.php'!
+2023-03-23 16:07:14 info Install extension 'Traffic 0.8.29'

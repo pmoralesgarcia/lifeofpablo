@@ -1,6 +1,8 @@
 <?php
 // Datenstrom Yellow, https://github.com/datenstrom/yellow
 
+require __DIR__ . '/vendor/autoload.php';
+
 require("system/extensions/core.php");
 
 if (PHP_SAPI!="cli") {

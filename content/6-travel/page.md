@@ -6,6 +6,6 @@ After 2+ years since the pandemic started, I was part of a University Nebraska -
 
 ### France & Europe - Spring 2017
 
-### Seattle Washington / Vancouver, Canada  - January 2015
+### Seattle, Washington / Vancouver, Canada  - January 2015
 
 ### Oaxaca, Mexico - My Entire Life
