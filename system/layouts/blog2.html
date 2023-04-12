@@ -1,0 +1,68 @@
+<?php $this->yellow->layout("header") ?>
+<div class="content">
+<div class="h-entry main" role="main">
+<?php $this->yellow->page->set("entryClass", "entry") ?>
+<?php if ($this->yellow->page->isExisting("tag")): ?>
+<?php foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("tag")) as $tag) { $this->yellow->page->set("entryClass", $this->yellow->page->get("entryClass")." tag-".$this->yellow->lookup->normaliseArguments($tag, false)); } ?>
+<?php endif ?>
+
+<style>
+.video-container {
+  position: relative;
+}
+video {
+  height: auto;
+  vertical-align: middle;
+  width: 100%;
+}
+.overlay-desc {
+  background: rgba(0,0,0,0);
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay-desc h1 {
+  color: white;
+  font-family: 'Nobile', sans-serif;
+  text-align: center;
+}
+</style>
+
+<link href='https://fonts.googleapis.com/css?family=Gafata|Open+Sans:300' rel='stylesheet' type='text/css'>
+
+<div class="full-width video-container">
+	   <video autoplay loop muted>
+		     <source src="https://f005.backblazeb2.com/file/lifeofpablo/media/videos/woman-61706.mp4" type="video/mp4">
+		     Your browser does not support the video tag.
+	   </video>
+     <div class="entry-title p-name overlay-desc">
+        <h1><?php echo $this->yellow->page->getHtml("titleContent") ?></h1>
+     </div>
+	</div>
+
+<div class="<?php echo $this->yellow->page->getHtml("entryClass") ?>">
+<div class="entry-meta"><span class="dt-published"><?php echo $this->yellow->page->getDateHtml("published") ?></span> <?php echo $this->yellow->language->getTextHtml("blogBy") ?> <span class="p-author h-card"><?php $authorCounter = 0; foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("author")) as $author) { if (++$authorCounter>1) echo ", "; echo "<a href=\"".$this->yellow->page->getPage("blogStart")->getLocation(true).$this->yellow->lookup->normaliseArguments("author:$author")."\">".htmlspecialchars($author)."</a>"; } ?></span></div>
+<div class="entry-content e-content"><?php echo $this->yellow->page->getContent() ?></div>
+<?php echo $this->yellow->page->getExtra("profiles") ?>
+<?php echo $this->yellow->page->getExtra("links") ?>
+<?php if ($this->yellow->page->isExisting("tag")): ?>
+<div class="entry-tags">
+	<p><?php echo $this->yellow->language->getTextHtml("blogTag") ?> <span class="p-category"><?php $tagCounter = 0; foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("tag")) as $tag) { if (++$tagCounter>1) echo ", "; echo "<a href=\"".$this->yellow->page->getPage("blogStart")->getLocation(true).$this->yellow->lookup->normaliseArguments("tag:$tag")."\">".htmlspecialchars($tag)."</a>"; } ?></span></p>
+</div>
+Permalink: <a class="u-url" href="<?php
+    // Program to display current page URL.
+    $link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']
+                === 'on' ? "https" : "http") .
+                "://" . $_SERVER['HTTP_HOST'] .
+                $_SERVER['REQUEST_URI'];
+    echo $link;
+    ?>"><?php echo $link ?></a>
+<?php endif ?>
+<?php echo $this->yellow->page->getExtra("comments") ?>
+</div>
+</div>
+<div class="line-2"></div>
+</div>
+<?php $this->yellow->layout("footer") ?>

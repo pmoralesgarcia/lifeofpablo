@@ -12,23 +12,7 @@ Status: unlisted
     <div class="row">
       <div class="column">
 
-        <!-- 
-
-          Getting Started with LittleLink
-
-          This page has been built with every pre-designed button available in LittleLink by default. You can rearrange and delete as needed.
-
-          You can add your own brand or others brands you may need in the `css/brands.css` file. 
-
-          You can add custom icons to `images/icons/...`. It is recommended to use a 24x24 .SVG.
-
-          Edit the "Your Image Here" section to add your own personal branding, like a picture of yourself or your brand logo!
-
-          Edit the "Title" section to change the page heading. You can use something like your name, your social handle, or your brand name.
-
-          Edit the "Short Bio" section tell users about yourself or your brand.
-
-        -->
+      
 <div class="button-content" markdown="1">
         <!-- Short Bio -->
 ## Hi, I'm Pablo. I'm just a late 20-something trying out new things in the world. 
@@ -37,9 +21,9 @@ Status: unlisted
 
 ## Enjoy!
 
-<!-- Privacy-->
-        <a class="button button-soundcloud" href="https://photography.lifeofpablo.com" target="_blank" rel="noopener">
-           <i class="fa-sharp fa-regular fa-camera-polaroid"></i> Photography</a>
+<!-- Photography-->
+        <a class="button button-soundcloud" href="https://lifeofpablo.com/photography" target="_blank" rel="noopener">
+           <i class="fa-sharp fa-regular fa-image"></i></i> Photography</a>
 
      <!-- Buy Me a Coffee -->
         <a class="button button-coffee" href="https://www.buymeacoffee.com/thepablomorales" target="_blank" rel="noopener">
@@ -60,7 +44,7 @@ Status: unlisted
                 
  <!-- Korea Trip -->
         <a class="button button-wordpress" href="https://korea.lifeofpablo.com/" target="_blank" rel="noopener">
-            <i class="fa-solid fa-location-pin"></i> Korea Trip Website</a>
+           <i class="fa-solid fa-location-pin"></i> Korea Trip Website</a>
        
         <!-- GitHub -->
         <a class="button button-github" href="https://github.com/pmoralesgarcia" target="_blank" rel="noopener">

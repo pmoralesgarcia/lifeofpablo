@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'p3k\\' => array($vendorDir . '/p3k/http/src/p3k'),
-    'IndieAuth\\' => array($vendorDir . '/indieauth/client/src/IndieAuth'),
+    'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'IndieAuth\\' => array($baseDir . '/src/IndieAuth'),
+    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
 );

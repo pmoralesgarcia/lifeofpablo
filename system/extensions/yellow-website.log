@@ -14211,3 +14211,13 @@
 2023-03-23 05:02:52 error Can't parse file 'system/extensions/image.php'!
 2023-03-23 05:03:30 error Can't parse file 'system/extensions/image.php'!
 2023-03-23 16:07:14 info Install extension 'Traffic 0.8.29'
+2023-03-31 02:24:38 info Install extension 'Meta 0.8.16'
+2023-03-31 03:23:14 info Install extension 'Burger 0.8.16'
+2023-03-31 03:43:34 info Install extension 'Backtotop 0.8.20'
+2023-04-07 03:59:05 info Update extension 'Core 0.8.106'
+2023-04-08 19:04:42 info Update extension 'Core 0.8.107'
+2023-04-08 20:46:13 error Can't parse file 'system/layouts/about-header.html'!
+2023-04-08 20:46:15 error Can't parse file 'system/layouts/about-header.html'!
+2023-04-08 20:46:35 error Can't parse file 'system/layouts/about-header.html'!
+2023-04-08 20:46:37 error Can't parse file 'system/layouts/about-header.html'!
+2023-04-09 04:42:55 error Can't parse file 'system/layouts/blog-start.html'!
