@@ -14223,3 +14223,6 @@
 2023-04-09 04:42:55 error Can't parse file 'system/layouts/blog-start.html'!
 2023-04-12 06:27:53 info Update extension 'Blog 0.8.26'
 2023-04-12 06:27:53 info Update extension 'Random 0.8.9'
+2023-04-12 06:33:44 info Install extension 'Previousnext 0.8.18'
+2023-04-12 06:36:15 error Can't parse file 'system/layouts/blog.html'!
+2023-04-12 06:36:46 error Can't parse file 'system/layouts/blog.html'!
