@@ -2,6 +2,17 @@
 Title: Replies
 TitleSlug: reply
 ---
+<div class="h-entry">
+  <span class="p-author h-card">
+    <a class="u-url" href="https://lifeofpablo.com/">
+      <img class="u-photo" src="https://f005.backblazeb2.com/file/lifeofpablo/pabs-cropped.jpg" width="40" alt="Pablo Morales' photo"/>
+      <span class="p-name">Pablo Morales</span>
+    </a>
+  </span>:
+  RSVP <span class="p-rsvp">yes</span> 
+  to <a href="https://events.indieweb.org/2023/04/homebrew-website-club-europe-london-o4OAvbs0jJad" class="u-in-reply-to">Homebrew Website Club Europe/London</a>
+</div>
+
   <div class="h-entry">
     <div class="u-author h-card">
       <img src="https://lifeofpablo.com/media/images/profilepic/pabs-cropped.jpg" class="u-photo" width="40">

@@ -1,6 +1,6 @@
 ---
 Title: Home
-TitleContent: Hey, I'm Pablo! Glad that you are here.
+TitleContent: Hey, I'm Pablo! I'm glad you stopped by! 
 Layout: about-page
 ---
 <style>
@@ -46,8 +46,6 @@ Layout: about-page
 }  
 </style>
 
-
-
 <div class="sucess box">
     Follow me on:
     <br>
@@ -63,25 +61,19 @@ Layout: about-page
 
  <div class="p-note" markdown="1">
 
-Hey, I'm Pablo and I'm based in Sacramento. I do IT and teach web design. Did you know I grew up in the town where [Kool-Aid](https://hastingsmuseum.org/exhibit/kool-aid/) was invented!? Oh, Yeahhhh! 
+Hey, I'm Pablo and I'm based in Sacramento. I work in IT in an educational setting. I really enjoy working with technology and improve technology use in education. 
 
 I really thankful for my parents that they taught me the importance of growing up bilingual which led me to become a polygot. I was a teacher. I can say 'Go Green' in 4 languages. 🌎 I speak English, Spanish & French. I also know some Korean as I studied the language and I recently traveled there.  
 
-Speaking of the Korean language, I was in Korea this summer! [I documented my adventures](/korea)
+Speaking of the Korean language, I was in Korea in summer 2022 [I documented my adventures](/korea)
 
-I really like vinyls and film photography.
+I really like vinyls and film photography. There is something so fascinating about analog formats. The physical of it? 
 
-Currently working on a few tech projects: ECO, AI/ML, Node,
+Currently working on a few tech projects: ECO, AI/ML, Node, and rust
 
 I like DCD's Jackpot Juicer.
 
 Living in CA, I have grown so much and made amazing friends
 
 
-</div>
-<div>
-Your Domain <form action="/login.php" method="post">
-  <input type="url" name="url">
-  <input type="submit" value="Log In">
-</form>
 </div>

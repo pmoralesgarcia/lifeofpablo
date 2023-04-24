@@ -7,7 +7,7 @@ Status: hidden
   <!-- https://www.pexels.com/video/aerial-view-of-beautiful-resort-2169880/ -->
   <section class="showcase">
     <header>
-      <h2 class="logo">Pablo Morales</h2>
+      <h2 class="logo"><a href="/">Pablo Morales</a></h2>
       <div class="toggle"></div>
     </header>
     <video src="https://korea.lifeofpablo.com/media/video/soccer-game.mov#t=0.1" muted loop autoplay></video>

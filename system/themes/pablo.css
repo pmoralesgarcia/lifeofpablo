@@ -237,7 +237,7 @@ a:hover {
 }
 
 .box {
-
+border: none;
     height: 2wh;
     text-align: center;
     font-weight: bold;

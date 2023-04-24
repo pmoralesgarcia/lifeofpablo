@@ -15,7 +15,8 @@
 <div class="entry-tags">
 	<p><?php echo $this->yellow->language->getTextHtml("blogTag") ?> <span class="p-category"><?php $tagCounter = 0; foreach (preg_split("/\s*,\s*/", $this->yellow->page->get("tag")) as $tag) { if (++$tagCounter>1) echo ", "; echo "<a href=\"".$this->yellow->page->getPage("blogStart")->getLocation(true).$this->yellow->lookup->normaliseArguments("tag:$tag")."\">".htmlspecialchars($tag)."</a>"; } ?></span></p>
 </div>
-Permalink: <a class="u-url" href="<?php
+<div class="permalink">Permalink: 
+	<a class="u-url" href="<?php
     // Program to display current page URL.
     $link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']
                 === 'on' ? "https" : "http") .
@@ -23,6 +24,7 @@ Permalink: <a class="u-url" href="<?php
                 $_SERVER['REQUEST_URI'];
     echo $link;
     ?>"><?php echo $link ?></a>
+</div>
 <?php echo $this->yellow->page->getExtra("previousnext") ?>
 <?php endif ?>
 <?php echo $this->yellow->page->getExtra("comments") ?>

@@ -1,4 +1,10 @@
 ---
 Title: Projects
 ---
-This is a new page.
+Rust:
+Pixel Planet Today
+
+Datenstrom Yellow
+
+Indieauth
+

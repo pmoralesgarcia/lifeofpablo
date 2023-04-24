@@ -6,8 +6,12 @@ Layout: blog
 Tag: sso, OAuth, OIDC, Google, SSO, IdP, nginx, reverse proxy, vouch proxy, technology, zero trust
 Status: draft
 ---
-<img src="https://avatars.githubusercontent.com/u/45102943?s=280&v=4" alt="vouch proxy logo">
+Table of Contents
 
+[toc]
+
+<img src="https://avatars.githubusercontent.com/u/45102943?s=280&v=4" alt="vouch-proxy-logo">
+## Introduction
 Recently I have started experimenting with identity.
 An SSO solution for Nginx using the auth_request module. Vouch Proxy can protect all of your websites at once. 
 
@@ -30,32 +34,70 @@ After a visitor logs in Vouch Proxy allows access to the protected websites for 
 VP can send the visitor's email, name and other information which the IdP provides (including access tokens) to the web application as HTTP headers. VP can be used to replace application user management entirely.
 
 
-### Things you'll need:
+## Things you'll need/prepare:
 * A linux server with a public IP address with hosting and SSL
  * Debian will be used here but any of the common distros will work
  * Certbot is an easy solution to get SSL certifcate for *https://*
-*  [Vouch Proxy](https://github.com/vouch/vouch-proxy) 
-
 * [Go Language](https://go.dev/doc/install) (to compile vouch-proxy)
+*  [Vouch Proxy](https://github.com/vouch/vouch-proxy) 
 
 * [Nginx Web Server](https://www.nginx.com/)
  * [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-11) has a good guide if you need to learn how to setup virtual blocks in nginx.
 
-### Download/Install Vouch Proxy from Github
+## Download/Install Vouch Proxy from Github
 Make sure to have Go Lang installed
 
+``` bash
+$ git clone https://github.com/vouch/vouch-proxy.git
+$ cd vouch-proxy
+$ ./do.sh goget
+$ ./do.sh build
 ```
-git clone https://github.com/vouch/vouch-proxy.git
-cd vouch-proxy
-./do.sh goget
-./do.sh build
+## Google Cloud Console
+Before we modify the config.yml, lets create 
+
+
+### Modify your config.yml
+
+
+``` yaml
+# Vouch Proxy configuration
+# bare minimum to get Vouch Proxy running with google
+
+vouch:
+  domains:
+  - yourdomain.com
+  - yourotherdomain.com #optional unless you would like to use another domain that configured on the same server/machine
+
+  # set allowAllUsers: true to use Vouch Proxy to just accept anyone who can authenticate with Google
+  # allowAllUsers: true
+
+  cookie:
+    # allow the jwt/cookie to be set into http://yourdomain.com (defaults to true, requiring https://yourdomain.com) 
+    secure: false
+    # vouch.cookie.domain must be set when enabling allowAllUsers
+    #  domain: yourdomain.com
+
+
+oauth:
+  provider: google
+  # get credentials from...
+  # https://console.developers.google.com/apis/credentials
+  client_id: xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com
+  client_secret: xxxxxxxxxxxxxxxxxxxxxxxx
+  # Google may require callback_urls (redirect URIs) to be 'https'
+  callback_urls: 
+    - https://yourdomain.com/auth
+    - https://yourotherdomain.com/auth #optional unless you would like to use another domain that configured on the same server/machine
+  preferredDomain: yourdomain.com # be careful with this option, it may conflict with chrome on Android 
+  # endpoints are set from https://godoc.org/golang.org/x/oauth2/google
 ```
 
-### Nginx Virtual Blocks
+## Nginx Virtual Blocks
 
 Let's go ahead and create a virtual block to proxy Vouch Proxy.
 
-```
+``` nginx
 server {
         server_name  vouch.example.com;  # spoint this to a subdomain. You an call it whatever you wish.
 
@@ -73,7 +115,7 @@ In this example I am using a php web app. If you a non php site site to work you
 
 
 
-```
+``` nginx
 server {
         listen 80;
         listen [::]:80;
@@ -106,7 +148,7 @@ Cert bot can do this for you as long as you have the subdomain in your DNS point
 
 or
 
-```
+``` nginx
 server { 
 
    server_name vouch.example.com  # or the domain of protected site will be in place of *vouch.example.com* by certbot
@@ -140,11 +182,28 @@ server {
 
 Let's check for errors in nginx. Type the following command.
 
-`nginx -t`
+``` nginx
+nginx -t
+
+```
 
 You should see something similar to this:
 
-```
+``` 
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
+
+## Let's open a browser tab or window!
+Note: I'm using firefox. (Preference). Any modern browser should work.
+
+### Type in the protected app' URL in the address bar
+[image address-bar.png]
+
+### Sign in to Google
+Sign in with an email that is allowed to sign to access the website when you configured it in Google Cloud Console.
+[image google-sign-in.png]
+
+### Voila, the protected page.
+Here is the home page of a Bludit CMS on subdomain acting as "secretapp.example.com"
+[image bludit.png 25%] 
