@@ -1,21 +1,25 @@
 ---
 Title: Setting Up Vouch Proxy using Nginx
-Published: 2023-02-18 19:03:45
+Published: 2023-04-24 15:35:45
 Author: Pablo Morales
 Layout: blog
 Tag: sso, OAuth, OIDC, Google, SSO, IdP, nginx, reverse proxy, vouch proxy, technology, zero trust
-Status: draft
+Image: 45102943.png
 ---
+**Blog Post on this using Indieauth coming soon!**
+
 Table of Contents
 
 [toc]
 
-<img src="https://avatars.githubusercontent.com/u/45102943?s=280&v=4" alt="vouch-proxy-logo">
+[image 45102943.png]
 ## Introduction
 Recently I have started experimenting with identity.
 An SSO solution for Nginx using the auth_request module. Vouch Proxy can protect all of your websites at once. 
 
 Today, I'll demonstrate how to setup [Vouch Proxy](https://github.com/vouch/vouch-proxy) on an [nginx](https://www.nginx.com/) web server. In this example I will be using Google as our provider
+
+**This tutorial assumes you have prior knowledge of using a linux server such as Debian. Message me at hello@lifeofpablo.com if you need some help. I'd be happy to do so!**
 
 
 ## What Vouch Proxy Does?
@@ -53,8 +57,51 @@ $ cd vouch-proxy
 $ ./do.sh goget
 $ ./do.sh build
 ```
+## Vouch Proxy Nginx Virtual Block
+
+Let's go ahead and create a virtual block to proxy Vouch Proxy.
+
+``` nginx
+server {
+        server_name  vouch.example.com;  # spoint this to a subdomain. You an call it whatever you wish.
+
+  # Proxy to your Vouch instance
+  location / {
+    proxy_set_header  Host  vouch.example.com; # make sure this matches the server_name, above
+    proxy_set_header  X-Forwarded-Proto https;
+    proxy_pass        http://127.0.0.1:9090;
+  }
+```
+
+Let's go ahead and create a virtual block for a regular nginx website site or edit an existing virtual block. This is the website/service that you will protect with Vouch Proxy.
+
+In this example I am using a php web app. If you a non php site site to work you can remove this location block and and edit it to your needs.
+
+
 ## Google Cloud Console
-Before we modify the config.yml, lets create 
+**[Google Cloud Console API](https://console.cloud.google.com/apis/credentials?)**
+
+Before we modify the config.yml, lets create an OAuth 2.0 Client ID and Client Secret which you will paste into the config.yml file.
+
+You will have to do the following
+1. Create a Project
+
+* Call it whatever you like. 
+* I called it oauth
+
+2. Create Credentials
+
+* You'll create the client ID and client secret (don't worry if you do the following steps and forget to copy these down. They will be available for you to copy at any time.
+
+3. OAuth consent screen 
+
+* App Name: 
+* This is where you will need to setup where your redirect URL is *https://vouch.example.com/url*. Just like the server_name set in the nginx virtual block config above.
+* Authorized Domain: example.com (just the base domain)
+* Fill out any other required fields
+
+
+
 
 
 ### Modify your config.yml
@@ -93,27 +140,8 @@ oauth:
   # endpoints are set from https://godoc.org/golang.org/x/oauth2/google
 ```
 
-## Nginx Virtual Blocks
 
-Let's go ahead and create a virtual block to proxy Vouch Proxy.
-
-``` nginx
-server {
-        server_name  vouch.example.com;  # spoint this to a subdomain. You an call it whatever you wish.
-
-  # Proxy to your Vouch instance
-  location / {
-    proxy_set_header  Host  vouch.example.com; # make sure this matches the server_name, above
-    proxy_set_header  X-Forwarded-Proto https;
-    proxy_pass        http://127.0.0.1:9090;
-  }
-```
-
-Let's go ahead and create a virtual block for a regular nginx website site or edit an existing virtual block. This is the website/service that you will protect with Vouch Proxy.
-
-In this example I am using a php web app. If you a non php site site to work you can remove this location block and and edit it to your needs.
-
-
+## Nginx Virtual block protected by Vouch Proxy
 
 ``` nginx
 server {
@@ -143,6 +171,11 @@ location ~* \.php$ {
 ```
 
 Eventually you will need to secure your site with SSL/TLS that makes your site use *https://*. Google will require that your traffic is secure with using it as 0auth as the method used to sign in to your protected website.
+
+Do this after you have the survey blocks working in the following section.
+
+Here is the link for Certbot for Debian. I have tested this on Debian 10 & 11.
+[https://certbot.eff.org/instructions?ws=nginx&os=debianbuster](Link for Certbot)
 
 Cert bot can do this for you as long as you have the subdomain in your DNS pointing to your machine and have cert bot installed. It'll add these blocks in your 
 

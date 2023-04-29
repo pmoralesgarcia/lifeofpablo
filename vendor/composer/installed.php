@@ -3,7 +3,7 @@
         'name' => 'indieauth/client',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2c270ac7c0c9044e5afefdb2f9ee9faebae2710b',
+        'reference' => 'cbcbf55970704008e5108932976b5a6e120c5f99',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'indieauth/client' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2c270ac7c0c9044e5afefdb2f9ee9faebae2710b',
+            'reference' => 'cbcbf55970704008e5108932976b5a6e120c5f99',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

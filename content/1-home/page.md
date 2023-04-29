@@ -1,6 +1,6 @@
 ---
 Title: Home
-TitleContent: Hey, I'm Pablo! I'm glad you stopped by! 
+TitleContent: Pablo Morales
 Layout: about-page
 ---
 <style>
@@ -46,23 +46,10 @@ Layout: about-page
 }  
 </style>
 
-<div class="sucess box">
-    Follow me on:
-    <br>
-   <!-- Mastodon -->
-   <a class="button button-mastodon" href="https://social.lifeofpablo.com" target="_blank" rel="me noopener">
-    <i class="fa-brands fa-mastodon"></i> Mastodon</a> 
-    <!-- Other Links -->
-        <a class="button button-coffee" href="/linkinbio" target="_blank" rel="noopener">
-            <i class="fa-solid fa-up-right-from-square"></i> Other Links</a>
 
-  </div>
 
 
  <div class="p-note" markdown="1">
-
-Hey, I'm Pablo and I'm based in Sacramento. I work in IT in an educational setting. I really enjoy working with technology and improve technology use in education. 
-
 I really thankful for my parents that they taught me the importance of growing up bilingual which led me to become a polygot. I was a teacher. I can say 'Go Green' in 4 languages. 🌎 I speak English, Spanish & French. I also know some Korean as I studied the language and I recently traveled there.  
 
 Speaking of the Korean language, I was in Korea in summer 2022 [I documented my adventures](/korea)
@@ -77,3 +64,11 @@ Living in CA, I have grown so much and made amazing friends
 
 
 </div>
+
+
+<form method="post" action="login.php">
+  <label for="domain">Your Domain:</label>
+  <input type="text" name="domain" id="domain">
+  <button type="submit">Log in</button>
+</form>
+
