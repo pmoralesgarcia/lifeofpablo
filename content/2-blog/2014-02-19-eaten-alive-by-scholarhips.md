@@ -1,5 +1,5 @@
 ---
-Title: Blog page 2
+Title: Eaten Alive by Scholarhips
 Published: 2014-02-19 16:08:03
 Author: Pablo Morales
 Layout: blog
