@@ -2,7 +2,7 @@
 // Edit extension, https://github.com/annaesvensson/yellow-edit
 
 class YellowEdit {
-    const VERSION = "0.8.72";
+    const VERSION = "0.8.75";
     public $yellow;         // access to API
     public $response;       // web response
     public $merge;          // text merge
@@ -63,7 +63,7 @@ class YellowEdit {
             $scheme = $this->yellow->system->get("coreServerScheme");
             $address = $this->yellow->system->get("coreServerAddress");
             $base = rtrim($this->yellow->system->get("coreServerBase").$this->yellow->system->get("editLocation"), "/");
-            list($scheme, $address, $base, $location, $fileName) = $this->yellow->getRequestInformation($scheme, $address, $base);
+            list($scheme, $address, $base, $location, $fileName) = $this->yellow->lookup->getRequestInformation($scheme, $address, $base);
             $this->yellow->page->setRequestInformation($scheme, $address, $base, $location, $fileName, false);
             $statusCode = $this->processRequest($scheme, $address, $base, $location, $fileName);
         }
@@ -1165,7 +1165,7 @@ class YellowEditResponse {
         $class = "page-preview layout-".$page->get("layout");
         $output = "<div class=\"".htmlspecialchars($class)."\"><div class=\"content\"><div class=\"main\">";
         if ($this->yellow->system->get("editToolbarButtons")!="none") $output .= "<h1>".$page->getHtml("titleContent")."</h1>\n";
-        $output .= $page->getContent();
+        $output .= $page->getContentHtml();
         $output .= "</div></div></div>";
         $page->statusCode = 200;
         $page->outputData = $output;
@@ -1592,17 +1592,20 @@ class YellowEditResponse {
         $message = preg_replace("/@userlanguage/i", $userLanguage, $message);
         $sitename = $this->yellow->system->get("sitename");
         $siteEmail = $this->yellow->system->get("editSiteEmail");
+        $subject = $this->yellow->language->getText("{$prefix}Subject", $userLanguage);
         $footer = $this->yellow->language->getText("editMailFooter", $userLanguage);
         $footer = str_replace("\\n", "\r\n", $footer);
         $footer = preg_replace("/@sitename/i", $sitename, $footer);
-        $mailTo = mb_encode_mimeheader("$userName")." <$userEmail>";
-        $mailSubject = mb_encode_mimeheader($this->yellow->language->getText("{$prefix}Subject", $userLanguage));
-        $mailHeaders = mb_encode_mimeheader("From: $sitename")." <$siteEmail>\r\n";
-        $mailHeaders .= mb_encode_mimeheader("X-Request-Url: $scheme://$address$base")."\r\n";
-        $mailHeaders .= "Mime-Version: 1.0\r\n";
-        $mailHeaders .= "Content-Type: text/plain; charset=utf-8\r\n";
+        $mailHeaders = array(
+            "To" => "$userName <$userEmail>",
+            "From" => "$sitename <$siteEmail>",
+            "Subject" => $subject,
+            "Date" => date(DATE_RFC2822),
+            "Mime-Version" => "1.0",
+            "Content-Type" => "text/plain; charset=utf-8",
+            "X-Request-Url" => "$scheme://$address$base");
         $mailMessage = "$message\r\n\r\n$url\r\n-- \r\n$footer";
-        return mail($mailTo, $mailSubject, $mailMessage, $mailHeaders);
+        return $this->yellow->toolbox->mail($action, $mailHeaders, $mailMessage);
     }
     
     // Create browser cookies

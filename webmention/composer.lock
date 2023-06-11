@@ -1,0 +1,113 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "eee08fdef3d63e04dd80eefd33ae8379",
+    "packages": [
+        {
+            "name": "phpish/http",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpish/http.git",
+                "reference": "bd6f604a2629687ebdcb637715d8ed571e6b3d1a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpish/http/zipball/bd6f604a2629687ebdcb637715d8ed571e6b3d1a",
+                "reference": "bd6f604a2629687ebdcb637715d8ed571e6b3d1a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "http.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sandeep Shetty",
+                    "email": "sandeep.shetty@gmail.com",
+                    "homepage": "http://sandeep.shetty.in"
+                }
+            ],
+            "description": "Convenience wrapper around cURL",
+            "homepage": "https://github.com/phpish/http",
+            "keywords": [
+                "api",
+                "curl",
+                "http"
+            ],
+            "support": {
+                "issues": "https://github.com/phpish/http/issues",
+                "source": "https://github.com/phpish/http/tree/master"
+            },
+            "time": "2014-11-23T23:33:44+00:00"
+        },
+        {
+            "name": "phpish/link_header",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpish/link_header.git",
+                "reference": "c3f1aaa47511d4d774456f888081f16a53dd0133"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpish/link_header/zipball/c3f1aaa47511d4d774456f888081f16a53dd0133",
+                "reference": "c3f1aaa47511d4d774456f888081f16a53dd0133",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "link_header.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sandeep Shetty",
+                    "email": "sandeep.shetty@gmail.com",
+                    "homepage": "http://sandeep.shetty.in"
+                }
+            ],
+            "description": "Link header (RFC 5988) parser",
+            "homepage": "https://github.com/phpish/link_header",
+            "keywords": [
+                "http"
+            ],
+            "support": {
+                "issues": "https://github.com/phpish/link_header/issues",
+                "source": "https://github.com/phpish/link_header/tree/master"
+            },
+            "time": "2013-08-25T18:04:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.3.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

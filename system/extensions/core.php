@@ -2,7 +2,7 @@
 // Core extension, https://github.com/annaesvensson/yellow-core
 
 class YellowCore {
-    const VERSION = "0.8.109";
+    const VERSION = "0.8.115";
     const RELEASE = "0.8.22";
     public $content;        // content files
     public $media;          // media files
@@ -10,8 +10,8 @@ class YellowCore {
     public $language;       // language settings
     public $user;           // user settings
     public $extension;      // extensions
-    public $lookup;         // lookup and normalisation
-    public $toolbox;        // toolbox with helper functions
+    public $lookup;         // lookup and normalisation methods
+    public $toolbox;        // toolbox with helper methods
     public $page;           // current page
 
     public function __construct() {
@@ -98,7 +98,7 @@ class YellowCore {
         $statusCode = 0;
         $this->toolbox->timerStart($time);
         ob_start();
-        list($scheme, $address, $base, $location, $fileName) = $this->getRequestInformation();
+        list($scheme, $address, $base, $location, $fileName) = $this->lookup->getRequestInformation();
         $this->page->setRequestInformation($scheme, $address, $base, $location, $fileName, true);
         foreach ($this->extension->data as $key=>$value) {
             if (method_exists($value["object"], "onRequest")) {
@@ -168,7 +168,7 @@ class YellowCore {
             $this->toolbox->log("error", "Can't parse file '$fileName'!");
             $this->toolbox->sendHttpHeader($this->toolbox->getHttpStatusFormatted(500));
             $troubleshooting = PHP_SAPI!="cli" ?
-                "<a href=\"".$this->getTroubleshootingUrl()."\">See troubleshooting</a>." : "See ".$this->getTroubleshootingUrl();
+                "<a href=\"".$this->toolbox->getTroubleshootingUrl()."\">See troubleshooting</a>." : "See ".$this->toolbox->getTroubleshootingUrl();
             echo "<br/>\nDatenstrom Yellow stopped with fatal error. Activate the debug mode for more information. $troubleshooting\n";
         }
     }
@@ -177,7 +177,7 @@ class YellowCore {
     public function exitFatalError($errorMessage = "") {
         $this->toolbox->sendHttpHeader($this->toolbox->getHttpStatusFormatted(500));
         $troubleshooting = PHP_SAPI!="cli" ?
-            "<a href=\"".$this->getTroubleshootingUrl()."\">See troubleshooting</a>." : "See ".$this->getTroubleshootingUrl();
+            "<a href=\"".$this->toolbox->getTroubleshootingUrl()."\">See troubleshooting</a>." : "See ".$this->toolbox->getTroubleshootingUrl();
         echo "$errorMessage $troubleshooting\n";
         exit(1);
     }
@@ -253,7 +253,7 @@ class YellowCore {
     public function command($line = "") {
         $statusCode = 0;
         $this->toolbox->timerStart($time);
-        list($command, $text) = $this->getCommandInformation($line);
+        list($command, $text) = $this->lookup->getCommandInformation($line);
         foreach ($this->extension->data as $key=>$value) {
             if (method_exists($value["object"], "onCommand")) {
                 $this->lookup->commandHandler = $key;
@@ -262,11 +262,16 @@ class YellowCore {
             }
         }
         if ($statusCode==0 && is_string_empty($command)) {
-            $lineCounter = 0;
-            echo "Datenstrom Yellow is for people who make small websites. https://datenstrom.se/yellow/\n";
-            foreach ($this->getCommandHelp() as $line) {
-                echo(++$lineCounter>1 ? "        " : "Syntax: ")."php yellow.php $line\n";
+            $lines = array();
+            foreach ($this->extension->data as $key=>$value) {
+                if (method_exists($value["object"], "onCommandHelp")) {
+                    $this->lookup->commandHandler = $key;
+                    $output = $value["object"]->onCommandHelp();
+                    $lines = array_merge($lines, is_array($output) ? $output : array($output));
+                }
             }
+            usort($lines, "strnatcasecmp");
+            $this->showCommandHelp($lines);
             $statusCode = 200;
         }
         if ($statusCode==0) {
@@ -281,9 +286,18 @@ class YellowCore {
         return $statusCode<400 ? 0 : 1;
     }
     
+    // Show command help
+    public function showCommandHelp($lines) {
+        echo "Datenstrom Yellow is for people who make small websites. https://datenstrom.se/yellow/\n";
+        $lineCounter = 0;
+        foreach ($lines as $line) {
+            echo(++$lineCounter>1 ? "        " : "Syntax: ")."php yellow.php $line\n";
+        }
+    }
+    
     // Handle startup
     public function startup() {
-        if ($this->isLoaded()) {
+        if (isset($this->extension->data)) {
             foreach ($this->extension->data as $key=>$value) {
                 if (method_exists($value["object"], "onStartup")) $value["object"]->onStartup();
             }
@@ -292,7 +306,7 @@ class YellowCore {
     
     // Handle shutdown
     public function shutdown() {
-        if ($this->isLoaded()) {
+        if (isset($this->extension->data)) {
             foreach ($this->extension->data as $key=>$value) {
                 if (method_exists($value["object"], "onShutdown")) $value["object"]->onShutdown();
             }
@@ -309,82 +323,6 @@ class YellowCore {
     public function getLayoutArguments($sizeMin = 9) {
         return array_pad($this->lookup->layoutArguments, $sizeMin, null);
     }
-    
-    // Return troubleshooting URL
-    public function getTroubleshootingUrl() {
-        return "https://datenstrom.se/yellow/help/troubleshooting";
-    }
-    
-    // Return request information
-    public function getRequestInformation($scheme = "", $address = "", $base = "") {
-        if (is_string_empty($scheme) && is_string_empty($address) && is_string_empty($base)) {
-            $url = $this->system->get("coreServerUrl");
-            if ($url=="auto" || $this->isCommandLine()) $url = $this->toolbox->detectServerUrl();
-            list($scheme, $address, $base) = $this->lookup->getUrlInformation($url);
-            $this->system->set("coreServerScheme", $scheme);
-            $this->system->set("coreServerAddress", $address);
-            $this->system->set("coreServerBase", $base);
-            if ($this->system->get("coreDebugMode")>=3) {
-                echo "YellowCore::getRequestInformation $scheme://$address$base<br/>\n";
-            }
-        }
-        $location = substru($this->toolbox->detectServerLocation(), strlenu($base));
-        $fileName = "";
-        if (is_string_empty($fileName)) $fileName = $this->lookup->findFileFromMediaLocation($location);
-        if (is_string_empty($fileName)) $fileName = $this->lookup->findFileFromContentLocation($location);
-        return array($scheme, $address, $base, $location, $fileName);
-    }
-
-    // Return command information
-    public function getCommandInformation($line = "") {
-        if (is_string_empty($line)) {
-            $line = $this->toolbox->getTextString(array_slice($this->toolbox->getServer("argv"), 1));
-            if ($this->system->get("coreDebugMode")>=3) {
-                echo "YellowCore::getCommandInformation $line<br/>\n";
-            }
-        }
-        return $this->toolbox->getTextList($line, " ", 2);
-    }
-    
-    // Return command help
-    public function getCommandHelp() {
-        $data = array();
-        foreach ($this->extension->data as $key=>$value) {
-            if (method_exists($value["object"], "onCommandHelp")) {
-                $output = $value["object"]->onCommandHelp();
-                $lines = is_array($output) ? $output : array($output);
-                foreach ($lines as $line) {
-                    list($command, $dummy) = $this->toolbox->getTextList($line, " ", 2);
-                    if (!is_string_empty($command) && !isset($data[$command])) $data[$command] = $line;
-                }
-            }
-        }
-        uksort($data, "strnatcasecmp");
-        return $data;
-    }
-    
-    // Return request handler
-    public function getRequestHandler() {
-        return $this->lookup->requestHandler;
-    }
-
-    // Return command handler
-    public function getCommandHandler() {
-        return $this->lookup->commandHandler;
-    }
-    
-    // Check if running at command line
-    public function isCommandLine() {
-        return isset($this->lookup->commandHandler);
-    }
-    
-    // Check if all extensions loaded
-    public function isLoaded() {
-        return isset($this->extension->data);
-    }
-    
-    // TODO: remove later, for backwards compatibility
-    public function log($action, $message) { $this->toolbox->log($action, $message); }
 }
 
 class YellowContent {
@@ -457,7 +395,7 @@ class YellowContent {
             $address = $this->yellow->page->address;
             $base = $this->yellow->page->base;
             $one = ($pages->offsetGet(0)->location!=$this->yellow->page->location) ? $pages->offsetGet(0) : $this->yellow->page;
-            preg_match_all("/<h(\d) id=\"([^\"]+)\">(.*?)<\/h\d>/i", $one->getContent(), $matches, PREG_SET_ORDER);
+            preg_match_all("/<h(\d) id=\"([^\"]+)\">(.*?)<\/h\d>/i", $one->getContentHtml(), $matches, PREG_SET_ORDER);
             foreach ($matches as $match) {
                 if ($match[1]==2) {
                     $page = new YellowPage($this->yellow);
@@ -1532,6 +1470,37 @@ class YellowLookup {
         return $output;
     }
     
+    // Normalise fields in MIME headers
+    public function normaliseHeaders($input, $type = "mime", $filterStrict = true) {
+        $output = "";
+        if ($type=="mime") {
+            $keysMixedEncoding = array("To", "From", "Reply-To", "Cc", "Bcc");
+            foreach ($input as $key=>$value) {
+                $key = ucwords(preg_replace("/[^a-zA-Z\-]/u", "-", $key), "-");
+                if (in_array($key, $keysMixedEncoding)) {
+                    $text = "$key: ";
+                    foreach (preg_split("/\s*,\s*/", $value) as $email) {
+                        if (!preg_match("/^(.*?)(\s*)<(.*?)>$/", $email, $matches)) {
+                            $matches[1] = $matches[2] = "";
+                            $matches[3] = $email;
+                        }
+                        if ($filterStrict && !preg_match("/[\w\+\-\.\@]+/", $matches[3])) {
+                            $matches[3] = "error-mail-filter";
+                        }
+                        if (substru($text, -2, 2)!=": ") $text .= ",\r\n ";
+                        $text = $this->getMimeHeader($text, $matches[1]);
+                        $text = $this->getMimeHeader($text, "$matches[2]<$matches[3]>", false);
+                    }
+                    $text .= "\r\n";
+                } else {
+                    $text = $this->getMimeHeader("$key: ", $value)."\r\n";
+                }
+                $output .= $text;
+            }
+        }
+        return $output;
+    }
+    
     // Normalise array, make keys with same upper/lower case
     public function normaliseArray($input) {
         $array = array();
@@ -1635,6 +1604,47 @@ class YellowLookup {
         return array($scheme, $address, $base);
     }
     
+    // Return request information
+    public function getRequestInformation($scheme = "", $address = "", $base = "") {
+        if (is_string_empty($scheme) && is_string_empty($address) && is_string_empty($base)) {
+            $url = $this->yellow->system->get("coreServerUrl");
+            if ($url=="auto" || $this->isCommandLine()) $url = $this->yellow->toolbox->detectServerUrl();
+            list($scheme, $address, $base) = $this->getUrlInformation($url);
+            $this->yellow->system->set("coreServerScheme", $scheme);
+            $this->yellow->system->set("coreServerAddress", $address);
+            $this->yellow->system->set("coreServerBase", $base);
+            if ($this->yellow->system->get("coreDebugMode")>=3) {
+                echo "YellowLookup::getRequestInformation $scheme://$address$base<br/>\n";
+            }
+        }
+        $location = substru($this->yellow->toolbox->detectServerLocation(), strlenu($base));
+        $fileName = "";
+        if (is_string_empty($fileName)) $fileName = $this->findFileFromMediaLocation($location);
+        if (is_string_empty($fileName)) $fileName = $this->findFileFromContentLocation($location);
+        return array($scheme, $address, $base, $location, $fileName);
+    }
+    
+    // Return command information
+    public function getCommandInformation($line = "") {
+        if (is_string_empty($line)) {
+            $line = $this->yellow->toolbox->getTextString(array_slice($this->yellow->toolbox->getServer("argv"), 1));
+            if ($this->yellow->system->get("coreDebugMode")>=3) {
+                echo "YellowLookup::getCommandInformation $line<br/>\n";
+            }
+        }
+        return $this->yellow->toolbox->getTextList($line, " ", 2);
+    }
+
+    // Return request handler
+    public function getRequestHandler() {
+        return $this->requestHandler;
+    }
+
+    // Return command handler
+    public function getCommandHandler() {
+        return $this->commandHandler;
+    }
+    
     // Return attributes from text
     public function getTextAttributes($text, $attributesAllowEmptyString) {
         $tokens = array();
@@ -1677,6 +1687,55 @@ class YellowLookup {
             }
         }
         return $attributes;
+    }
+    
+    // Return MIME header field, encode and fold if necessary
+    public function getMimeHeader($text, $field, $allowEncode = true) {
+        if ($allowEncode) {
+            $encode = preg_match("/[\x7F-\xFF]/", $field);
+            $fieldPos = 0;
+            while (true) {
+                $textPos = strlenb($text)-(($pos = strrposb($text, "\n")) ? $pos+1 : 0);
+                $bytesAvailable = max(0, 78-$textPos);
+                $fragment = substrb($field, $fieldPos);
+                if ($encode && !is_string_empty($fragment)) $fragment = "=?UTF-8?B?".base64_encode($fragment)."?=";
+                if ($bytesAvailable<strlenb($fragment)) {
+                    $bytesHandled = $bytesAvailable;
+                    if (!$encode) {
+                        for ($pos=$bytesHandled;$pos>0;--$pos) {
+                            if($field[$fieldPos+$pos]==" ") {
+                                $fragment = substrb($field, $fieldPos, $pos);
+                                $bytesHandled = $pos+1;
+                                break;
+                            }
+                        }
+                        if($pos==0) $encode = true;
+                    }
+                    if ($encode) {
+                        while (true) {
+                            $fragment = substrb($field, $fieldPos, $bytesHandled);
+                            if (!is_string_empty($fragment)) $fragment = "=?UTF-8?B?".base64_encode($fragment)."?=";
+                            if ($bytesAvailable>=strlenb($fragment) || $bytesHandled==0) break;
+                            --$bytesHandled;
+                        }
+                    }
+                    $text .= $fragment."\r\n ";
+                    $fieldPos += $bytesHandled;
+                } else {
+                    $text .= $fragment;
+                    break;
+                }
+            }
+        } else {
+            $textPos = strlenb($text)-(($pos = strrposb($text, "\n")) ? $pos+1 : 0);
+            $bytesAvailable = max(0, 78-$textPos);
+            if ($bytesAvailable<strlenb($field)) {
+                $text .= "\r\n ".ltrim($field);
+            } else {
+                $text .= $field;
+            }
+        }
+        return $text;
     }
     
     // Return directory location
@@ -1794,6 +1853,11 @@ class YellowLookup {
     public function isSystemFile($fileName) {
         $systemDirectoryLength = strlenu($this->yellow->system->get("coreSystemDirectory"));
         return substru($fileName, 0, $systemDirectoryLength)==$this->yellow->system->get("coreSystemDirectory");
+    }
+    
+    // Check if running at command line
+    public function isCommandLine() {
+        return isset($this->commandHandler);
     }
 }
 
@@ -2521,6 +2585,11 @@ class YellowToolbox {
         }
         return $rawDataNew;
     }
+    
+    // Return troubleshooting URL
+    public function getTroubleshootingUrl() {
+        return "https://datenstrom.se/yellow/help/troubleshooting";
+    }
 
     // Detect server URL
     public function detectServerUrl() {
@@ -2771,6 +2840,34 @@ class YellowToolbox {
         return $value;
     }
 
+    // Send email message
+    public function mail($action, $headers, $message) {
+        $statusCode = 0;
+        foreach ($this->yellow->extension->data as $key=>$value) {
+            if (method_exists($value["object"], "onMail")) {
+                $statusCode = $value["object"]->onMail($action, $headers, $message);
+                if ($statusCode!=0) break;
+            }
+        }
+        if ($statusCode==0) {
+            $text = $this->yellow->lookup->normaliseHeaders($headers, "mime");
+            $to = $subject = $remaining = $key = "";
+            foreach (preg_split("/\r\n/", $text) as $line) {
+                if (preg_match("/^(.*?):\s*(.*?)$/", $line, $matches) && !is_string_empty($matches[1])) {
+                    $key = $matches[1];
+                    $fragment = $matches[2];
+                } else {
+                    $fragment = $line;
+                }
+                if ($key=="To") { $to .= $fragment; continue; }
+                if ($key=="Subject") { $subject .= $fragment; continue; }
+                $remaining .= $line."\r\n";
+            }
+            $statusCode = mail($to, $subject, $message, $remaining) ? 200 : 500;
+        }
+        return $statusCode==200;
+    }
+
     // Write information to log file
     public function log($action, $message) {
         $statusCode = 0;
@@ -2959,7 +3056,7 @@ class YellowPage {
                 $value = $this->yellow->extension->data[$this->get("parser")];
                 if (method_exists($value["object"], "onParseContentRaw")) {
                     $this->parser = $value["object"];
-                    $this->parserData = $this->getContent(true);
+                    $this->parserData = $this->getContentRaw();
                     $this->parserData = $this->parser->onParseContentRaw($this, $this->parserData);
                     foreach ($this->yellow->extension->data as $key=>$value) {
                         if (method_exists($value["object"], "onParseContentHtml")) {
@@ -2969,7 +3066,7 @@ class YellowPage {
                     }
                 }
             } else {
-                $this->parserData = $this->getContent(true);
+                $this->parserData = $this->getContentRaw();
                 $this->parserData = preg_replace("/\[yellow error\]/i", $this->errorMessage, $this->parserData);
             }
             if (!$this->isExisting("description")) {
@@ -3022,12 +3119,12 @@ class YellowPage {
         if ($this->yellow->lookup->isNestedLocation($this->location, $this->fileName, true)) {
             $this->error(500, "Folder '".dirname($this->fileName)."' may not contain subfolders!");
         }
-        if ($this->yellow->getRequestHandler()=="core" && $this->isExisting("redirect") && $this->statusCode==200) {
+        if ($this->yellow->lookup->getRequestHandler()=="core" && $this->isExisting("redirect") && $this->statusCode==200) {
             $location = $this->yellow->lookup->normaliseLocation($this->get("redirect"), $this->location);
             $location = $this->yellow->lookup->normaliseUrl($this->scheme, $this->address, "", $location);
             $this->status(301, $location);
         }
-        if ($this->yellow->getRequestHandler()=="core" && !$this->isAvailable() && $this->statusCode==200) {
+        if ($this->yellow->lookup->getRequestHandler()=="core" && !$this->isAvailable() && $this->statusCode==200) {
             $this->error(404);
         }
         if ($this->isExisting("pageClean")) $this->outputData = null;
@@ -3133,16 +3230,48 @@ class YellowPage {
         return htmlspecialchars($this->getDateFormatted($key, $format));
     }
     
-    // Return page content, HTML encoded or raw format
-    public function getContent($rawFormat = false) {
-        if ($rawFormat) {
-            $this->parseMetaUpdate();
-            $text = substrb($this->rawData, $this->metaDataOffsetBytes);
-        } else {
-            $this->parseContent();
-            $text = $this->parserData;
+    // Return page content data, raw format
+    public function getContentRaw() {
+        $this->parseMetaUpdate();
+        return substrb($this->rawData, $this->metaDataOffsetBytes);
+    }
+    
+    // Return page content data, HTML encoded or raw format
+    public function getContentHtml() {
+        $this->parseContent();
+        return $this->parserData;
+    }
+    
+    // Return page extra data, HTML encoded
+    public function getExtraHtml($name) {
+        $output = "";
+        foreach ($this->yellow->extension->data as $key=>$value) {
+            if (method_exists($value["object"], "onParsePageExtra")) {
+                $outputExtension = $value["object"]->onParsePageExtra($this, $name);
+                if (!is_null($outputExtension)) $output .= $outputExtension;
+            }
         }
-        return $text;
+        if ($name=="header") {
+            $fileNameTheme = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".css";
+            if (is_file($fileNameTheme)) {
+                $locationTheme = $this->yellow->system->get("coreServerBase").
+                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".css";
+                $output .= "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$locationTheme\" />\n";
+            }
+            $fileNameScript = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".js";
+            if (is_file($fileNameScript)) {
+                $locationScript = $this->yellow->system->get("coreServerBase").
+                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".js";
+                $output .= "<script type=\"text/javascript\" src=\"$locationScript\"></script>\n";
+            }
+            $fileNameFavicon = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".png";
+            if (is_file($fileNameFavicon)) {
+                $locationFavicon = $this->yellow->system->get("coreServerBase").
+                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".png";
+                $output .= "<link rel=\"icon\" type=\"image/png\" href=\"$locationFavicon\" />\n";
+            }
+        }
+        return $output;
     }
     
     // Return parent page, null if none
@@ -3234,38 +3363,6 @@ class YellowPage {
     // Return page response header
     public function getHeader($key) {
         return $this->isHeader($key) ? $this->headerData[$key] : "";
-    }
-    
-    // Return page extra data
-    public function getExtra($name) {
-        $output = "";
-        foreach ($this->yellow->extension->data as $key=>$value) {
-            if (method_exists($value["object"], "onParsePageExtra")) {
-                $outputExtension = $value["object"]->onParsePageExtra($this, $name);
-                if (!is_null($outputExtension)) $output .= $outputExtension;
-            }
-        }
-        if ($name=="header") {
-            $fileNameTheme = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".css";
-            if (is_file($fileNameTheme)) {
-                $locationTheme = $this->yellow->system->get("coreServerBase").
-                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".css";
-                $output .= "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"$locationTheme\" />\n";
-            }
-            $fileNameScript = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".js";
-            if (is_file($fileNameScript)) {
-                $locationScript = $this->yellow->system->get("coreServerBase").
-                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".js";
-                $output .= "<script type=\"text/javascript\" src=\"$locationScript\"></script>\n";
-            }
-            $fileNameFavicon = $this->yellow->system->get("coreThemeDirectory").$this->yellow->lookup->normaliseName($this->get("theme")).".png";
-            if (is_file($fileNameFavicon)) {
-                $locationFavicon = $this->yellow->system->get("coreServerBase").
-                    $this->yellow->system->get("coreThemeLocation").$this->yellow->lookup->normaliseName($this->get("theme")).".png";
-                $output .= "<link rel=\"icon\" type=\"image/png\" href=\"$locationFavicon\" />\n";
-            }
-        }
-        return $output;
     }
     
     // Set page response output
@@ -3388,6 +3485,10 @@ class YellowPage {
     public function isPage($key) {
         return isset($this->sharedPages[$key]);
     }
+    
+    // TODO: remove later, for backwards compatibility
+    public function getContent($rawFormat = false) { return $rawFormat ? $this->getContentRaw() : $this->getContentHtml(); }
+    public function getExtra($name) { return $this->getExtraHtml($name); }
 }
 
 class YellowPageCollection extends ArrayObject {

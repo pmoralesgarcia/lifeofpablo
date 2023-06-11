@@ -1,27 +1,34 @@
 ---
-Title: San francisco
+Title: San Francisco
 ---
-Coming Soon!
+<style>
 
-<div class="project-gallery">
+body {
+overflow-x: hidden;
+}
+.full-width {
+	left: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+	max-width: 100vw;
+	position: relative;
+	right: 50%;
+	width: 100vw;
+}
 
-<div class="vid-grid">
+</style>
 
- <video width="320" height="240" controls>
-  <source src="https://f005.backblazeb2.com/file/lifeofpablo/media/videos/amoeba+records.MP4" type="video/mp4">
-  Your browser does not support the video tag.
-</video> 
+**Digital Photography**
 
-<div>
+* Coming Soon!
 
-<div class="vid-grid">
-<div>
+**Film/Analog**
 
-<div class="vid-grid">
-<div>
-
-<div class="vid-grid">
-<div>
+* [Filming on mini-dv tapes in San Francisco](filming-minidv-sf)
+* [Birthday Weekend](san-francisco/birthday-weekend)
+* [Ocean Beach](san-francisco/ocean-beach)
 
 
-</div>
+
+
+

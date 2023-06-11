@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'phpish/webmention',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '4a914192cd9424f69c1d05e4399dc10b6aa3efe0',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        'phpish/http' => array(
+            'pretty_version' => 'v1.0.0',
+            'version' => '1.0.0.0',
+            'reference' => 'bd6f604a2629687ebdcb637715d8ed571e6b3d1a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpish/http',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpish/link_header' => array(
+            'pretty_version' => 'v1.0.0',
+            'version' => '1.0.0.0',
+            'reference' => 'c3f1aaa47511d4d774456f888081f16a53dd0133',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpish/link_header',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpish/webmention' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '4a914192cd9424f69c1d05e4399dc10b6aa3efe0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);

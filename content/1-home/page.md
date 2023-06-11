@@ -64,11 +64,6 @@ Living in CA, I have grown so much and made amazing friends
 
 
 </div>
+<link href="https://twitter.com/thepablomorales" rel="me">
 
-
-<form method="post" action="login.php">
-  <label for="domain">Your Domain:</label>
-  <input type="text" name="domain" id="domain">
-  <button type="submit">Log in</button>
-</form>
 

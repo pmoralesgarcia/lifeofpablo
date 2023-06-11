@@ -7,18 +7,14 @@ Tag: school, teaching, pandemic, remote learning, students, students above all, 
 Status: draft
 ---
 <style>
-.entry-title h1 {
-  display: none;
-}
 
-.entry-meta {
-  display: none;
-}
 
 @-webkit-keyframes typing { from { width: 0; } }
 @-webkit-keyframes blink-caret { 50% { border-color: transparent; } }
 
-.typewriter h1 {
+.typewriter p {
+font-size: 1.7em;
+color: #ffa500;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   border-right: .15em solid orange; /* The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
@@ -33,7 +29,7 @@ animation-iteration-count: infinite;
 /* The typing effect */
 @keyframes typing {
   from { width: 0 }
-  to { width: 100% }
+  to { width: 75% }
 }
 
 /* The typewriter cursor effect */
@@ -94,14 +90,22 @@ width="100%"
         <h1 p-name >Let’s talk about the Covid Pandemic…</h1>
      </div>
         </div>
-<div class="post-date"><span class="dt-published">2023-04-12</span> by <span class="p-author h-card"><a href="/blog/author:pablo-morales/">Pablo Morales</a></span></div>
+
 
 <div class="covid1" markdown="1">
 
-COVID-19 is a virus that will always be on our minds as it is not simply going away anytime soon. The pandemic isn’t over. Period.
+The COVID-19 is a virus that will always be on our minds as it is not simply going away anytime soon. It's an experience that will continue. The pandemic isn’t over. Period. The CDC announced the "[End of the Federal COVID-19 Public Health Emergency (PHE) Declaration](https://www.cdc.gov/coronavirus/2019-ncov/your-health/end-of-phe.html)" on May 11<sup>th</sup>, 2023.
 I recently read a New York Times article, [Three Years Into Covid, We Still Don't Know How to Talk About It](https://www.nytimes.com/interactive/2023/02/22/magazine/covid-pandemic-oral-history.html).
 
-It got me thinking, “Talking about this pandemic isn’t actually easy to talk about.” As the article states, “”Most people seem to feel great resistance to revisiting” conversations and experiences about the pandemic”
+The following phrase really got my gears workings, “Talking about this pandemic isn’t actually easy to talk about.” We know how we felt when we were in the height of the pandemic. As the article states, "Most people seem to feel great resistance to revisiting” conversations and experiences about the pandemic," which it is hard to put in words and the emotions revisited when trying to talk about it. Even as I write, which is the equivalent of having a conversation, I feel a sense of hesitation. I know that I need to have these conversations even if it is with myself. Most of the time when someone brings up the pandemic, it goes along the lines of, 
+
+> " During lockdown, I learned ______."
+
+> "I got caught up on my Netflix"
+
+> "I bought a home"
+
+I nev
 
 Established at Columbia University in March 2020, [The NYC Covid-19 Oral History, Narrative and Memory Archive](https://incite.columbia.edu/covid19-oral-history-project), 200 individuals In New York were interviewed by an impromptu collective of sociologists and oral historians. The interviewed individuals shared their experiences as the pandemic unfolded. These same individuals were reinterviewed in waves about pandemic life from the spring of 2020 to the fall of 2022. They were asked what they were “seeing, doing and feeling and about what they expected, or feared, might happen next.” I really recommend looking into this project as the data in the archive will be released publicly by Columbia University  in the near future.
 
@@ -115,11 +119,11 @@ During Spring break we got the call that we were going to remote learning! So ma
 
 
 <div class="typewriter full-width">
-  <h1>My goal was to make sure my students go an education.</h1>
+  <p>My goal was to make sure my students go an education.</p>
 </div>
 
 <div class="typewriter ">
-  <h1>I put myself last. Nothing else mattered.</h1>
+  <p>I put myself last. Nothing else mattered.</p>
 </div>
 
 

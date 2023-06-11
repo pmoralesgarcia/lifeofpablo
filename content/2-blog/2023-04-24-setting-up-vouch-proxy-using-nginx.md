@@ -6,6 +6,13 @@ Layout: blog
 Tag: sso, OAuth, OIDC, Google, SSO, IdP, nginx, reverse proxy, vouch proxy, technology, zero trust
 Image: 45102943.png
 ---
+
+Location:
+<a class="h-geo" href="https://www.latlong.net/c/?lat=38.581573&long=-121.494400">
+  <span class="p-latitude">38.581573</span>,
+  <span class="p-longitude">-121.494400</span>
+</a>
+
 **Blog Post on this using Indieauth coming soon!**
 
 Table of Contents
