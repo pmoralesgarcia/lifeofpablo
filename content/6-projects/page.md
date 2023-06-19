@@ -4,7 +4,7 @@ Title: Projects
 
 [image https://avatars.githubusercontent.com/u/116655064?s=200&v=4 zoom 10%]
 
-[Terrabytle](https://github.com/orgs/terrabyte-tech/repositories) 
+[Terrabyte](https://github.com/orgs/terrabyte-tech/repositories) 
 
 * Rust Application to submit recommendations
 

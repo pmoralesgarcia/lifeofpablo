@@ -197,4 +197,3 @@ class YellowImage {
         return $this->yellow->toolbox->getFileModified($fileNameInput)!=$this->yellow->toolbox->getFileModified($fileNameOutput);
     }
 }
-

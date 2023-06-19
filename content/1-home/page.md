@@ -1,6 +1,6 @@
 ---
 Title: Home
-TitleContent: Pablo Morales
+TitleContent: Pablo Morales 🌈
 Layout: about-page
 ---
 <style>

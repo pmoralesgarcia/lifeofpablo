@@ -80,11 +80,9 @@ Here is my code reflecting h-entry tags as classes on Datenstrom, (the flat-file
 
 `2023-03-19 by Pablo Morales`
 
-[**blog-start.html code:**](https://gist.github.com/pmoralesgarcia/7be6da3f4a0914388d1c1d53d9c9644c)
+* [**blog-start.html code:**](https://gist.github.com/pmoralesgarcia/7be6da3f4a0914388d1c1d53d9c9644c)
 
-
-
-[**blog.html code:**](https://gist.github.com/pmoralesgarcia/3e7e60c8767d186801dadc0dba6fd29a)
+* [**blog.html code:**](https://gist.github.com/pmoralesgarcia/3e7e60c8767d186801dadc0dba6fd29a)
 
 
 
